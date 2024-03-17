@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        #container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        .star{
+            font-size: 180%;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="star" id="one">&star;</div>
+        <div class="star" id="two">&star;</div>
+        <div class="star" id="three">&star;</div>
+        <div class="star" id="four">&star;</div>
+        <div class="star" id="five">&star;</div>
+    </div>
+    <script>
+        const stars = document.getElementsByClassName("star");
+        const container = document.getElementById("container");
+        let clicked = false;
+        let mouseOverListenerAdded = false;
+        function trackMouseMove(e){
+            let found = false;
+            for(let i = stars.length - 1; i >= 0; i--){
+                if(e.target.id === stars[i].id){
+                    found = true;
+                }
+                if(found){
+                    stars[i].innerHTML = "&starf;";
+                    stars[i].style.color = "gold";
+                } else {
+                    stars[i].innerHTML = "&star;";
+                    stars[i].style.color = "black";
+                }
+            }
+        }
+        container.addEventListener("mouseenter", () => {
+            if(!clicked){
+                container.addEventListener("mousemove", trackMouseMove);
+                mouseOverListenerAdded = true;
+            }            
+        });
+        container.addEventListener("mouseleave", () => {
+            if(mouseOverListenerAdded){
+                container.removeEventListener("mousemove", trackMouseMove);
+                mouseOverListenerAdded = false;
+            }  
+            if(!clicked){
+                for(let i = 0; i < stars.length; i++){
+                    stars[i].innerHTML = "&star;";
+                    stars[i].style.color = "black";
+                }
+            }          
+        });
+        container.addEventListener("mousedown", (e) => {
+            if(mouseOverListenerAdded){
+                container.removeEventListener("mousemove", trackMouseMove);
+                mouseOverListenerAdded = false;
+            }
+            if(!clicked){
+                clicked = true;
+            }            
+            let found = false;
+            for(let i = stars.length - 1; i >= 0; i--){
+                if(e.target.id === stars[i].id){
+                    found = true;
+                }
+                if(found){
+                    stars[i].innerHTML = "&starf;";
+                    stars[i].style.color = "gold";
+                } else {
+                    stars[i].innerHTML = "&star;";
+                    stars[i].style.color = "black";
+                }
+            }
+        });
+    </script>
+</body>
+</html>
